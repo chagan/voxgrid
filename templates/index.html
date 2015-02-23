@@ -1,47 +1,41 @@
 {% extends '_base.html' %}
 
-{% block header_content %}
-<header>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>{{ COPY.content.project_name|smarty }}</h1>
-                <h2>{{ COPY.content.lorem_ipsum|smarty }}</h2>
-            </div>
-        </div>
-    </div>
-</header>
-{% endblock %}
-
 
 {% block content %}
-<h1>{{ COPY.content.project_name }}</h1>
 
-<div id="story-meta">
-    <p class="byline">by <span>{{ COPY.content.byline }}</span></p>
-    <p class="dateblock">
-        <span class="date">{{ COPY.content.pubdate }}</span>
-        <span class="time"> {{ COPY.content.pubtime }}</span>
-    </p>
-</div>
+<div class="container-fluid">
 
-<h2>Example COPY list</h2>
-<dl>
-    {% for row in COPY.example_list %}
-    <dt>{{ row.term }}</dt><dd>{{ row.definition }}</dd>
+    {% for photo in COPY.photos %}
+        <div class="col-sm-3 frame" data-toggle="modal" data-target="#myModal" data-caption="{{photo.caption}}"><img src="images/{{photo.url}}" class="img-responsive" alt="Responsive image">{{photo.caption}}</div>
     {% endfor %}
-</dl>
 
-<h2>JST example</h2>
-<p id="template-example"></p>
-{% endblock %}
-
-
-{% block wide_content %}
-<div class="row">
-    <div class="col-md-12">
-        <h2>{{ COPY.content.footer_title }}</h2>
-        <p>{{ COPY.content.lorem_ipsum }}</p>
-    </div>
 </div>
-{% endblock %}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-caption">
+            <div class="caption-text">Caption</div>
+        </div>
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_foot %}
+
+<script>
+    $('.frame').click(function(){
+        var image = $(this).children().attr('src');
+        var caption = $(this).data('caption');
+        $('.modal-content').css('background-image', 'url(' + image + ')');
+        $('.caption-text').text(caption);
+    })
+</script>
+
+{% endblock extra_foot %}

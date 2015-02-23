@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% for photo in COPY.photos %}
+        <div class="ratio" style="background-image:url('../images/{{photo.url}}')" />
+    {% endfor %}
+
+</div>
+
+{% endblock content %}
