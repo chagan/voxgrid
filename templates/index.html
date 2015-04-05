@@ -7,11 +7,11 @@
 
     {% for photo in COPY.photos %}
         <div class="col-sm-4 col-md-3 frame">
-          <img src="https://s3.amazonaws.com/wbez-dailygraphics/election-vox/{{photo.url}}" class="img-responsive" alt="Responsive image">
-          <div class="audio"><i class="fa fa-play"></i><i class="fa fa-pause"></i></div>
+          <img src="https://s3.amazonaws.com/wbez-dailygraphics/election-vox/{{photo.url}}" data-audio="{{phot.audio}}" class="img-responsive" alt="Responsive image">
           <div class="location">{{photo.location}}</div>
           <div class="title">{{photo.title}}</div>
           <div class="main-caption visible-xs">{{photo.caption}}</div>
+          <div class="audio"><i class="fa fa-play"></i><i class="fa fa-pause"></i></div>
         </div>
         {% if loop.index is divisibleby 4 %}
           <div class="clearfix visible-lg visible-md"></div>
@@ -40,6 +40,8 @@
 
 <audio id="player" preload="auto"> 
   <source src="assets/Hustle.mp3" />
+  <source src="assets/Niles.mp3" />
+  <source src="assets/Whiskey.mp3" />
 </audio>
 
 {% endblock content %}
@@ -48,6 +50,8 @@
 
 <script>
 $( document ).ready(function() {
+
+  var state = false;
 
   var setClick = function(){
     if ($(window).width() > 768) {
@@ -79,18 +83,23 @@ $( document ).ready(function() {
   //     $('.fa-pause').show();
   // });
 
-  $('.audio').click(function(){
-    console.log('audio click');
-    $(this).children('.fa-play').toggle(playback);
-    $(this).children('.fa-pause').toggle(playback);
+  $('.audio').click(function(evt){
+    evt.stopPropagation();
+    evt.preventDefault();
+    $(this).children('.fa-play').toggle();
+    $(this).children('.fa-pause').toggle();
+    playback();
   });
 
   function playback(){
-    if ($(".fa-play").is(":visible") == true) {
+    console.log(state);
+    if (state == false) {
         $('#player').get(0).play();
+        state = true;
       }
-      else {
+    else {
         $('#player').get(0).pause();
+        state = false;
       }
   }
 
