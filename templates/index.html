@@ -5,13 +5,12 @@
 <div class="container-fluid">
 
     {% for photo in COPY.photos %}
-        <div class="col-sm-4 col-md-3 frame">
-          <img src="https://s3.amazonaws.com/wbez-dailygraphics/election-vox/{{photo.url}}" data-audio="{{photo.audio}}" class="img-responsive" alt="Responsive image">
+        <div class="col-sm-4 col-md-3 frame" data-audio="{{photo.audio}}">
+          <img src="https://s3.amazonaws.com/wbez-dailygraphics/election-vox/{{photo.url}}" class="img-responsive" alt="Responsive image">
           <div class="location">{{photo.location}}</div>
           <div class="title">{{photo.title}}</div>
           <div class="main-caption visible-xs">{{photo.caption}}</div>
           {% include '_player.html' %}
-          <!-- <div class="audio"><i class="fa fa-play"></i><i class="fa fa-pause"></i></div> -->
         </div>
         {% if loop.index is divisibleby 4 %}
           <div class="clearfix visible-lg visible-md"></div>
@@ -38,12 +37,6 @@
   </div>
 </div>
 
-<!-- <audio id="player" preload="auto"> 
-  <source src="assets/Hustle.mp3" />
-  <source src="assets/Niles.mp3" />
-  <source src="assets/Whiskey.mp3" />
-</audio> -->
-
 {% endblock content %}
 
 {% block extra_foot %}
@@ -68,63 +61,50 @@ $( document ).ready(function() {
   }
   setClick();
 
-  // //pause
-  // $('.fa-pause').click( function() {
-  //     $('#player').get(0).pause();
-  //     $(this).hide();
-  //     $('.fa-play').show();
-  // });
-
-  // //play
-  // $('.fa-play').click( function() {
-  //     debugger;
-  //     $('#player').get(0).play();
-  //     $(this).hide();
-  //     $('.fa-pause').show();
-  // });
-
-  // $('.audio').click(function(evt){
-  //   evt.stopPropagation();
-  //   evt.preventDefault();
-  //   $(this).children('.fa-play').toggle();
-  //   $(this).children('.fa-pause').toggle();
-  //   playback();
-  // });
-
-  // function playback(track){
-  //   console.log(state);
-  //   if (state == false) {
-  //       $('#player').get(0).play();
-  //       state = true;
-  //     }
-  //   else {
-  //       $('#player').get(0).pause();
-  //       state = false;
-  //     }
-  // }
-
-  // function pauseback(){
-  //   if ($(".fa-pause").is(":visible") == true) {
-  //       $('#player').get(0).pause();
-  //     }
-  //     else {
-  //       $('#player').get(0).play();
-  //     }
-  // }
-
   $( window ).resize(function() {
     setClick();
   });
   
-  $("#jquery_jplayer_1").jPlayer({
+  $("#jquery_jplayer_Hustle").jPlayer({
       ready: function (event) {
           $(this).jPlayer("setMedia", {
               title: "Hustle",
               mp3: "assets/Hustle.mp3"
           });
       },
+      cssSelectorAncestor: "#jp_container_Hustle",
       supplied: "mp3", // or multiple like this: "m4a, ogg",
   });
+
+  $("#jquery_jplayer_Whiskey").jPlayer({
+      ready: function (event) {
+          $(this).jPlayer("setMedia", {
+              title: "Whiskey",
+              mp3: "assets/Whiskey.mp3"
+          });
+      },
+      cssSelectorAncestor: "#jp_container_Whiskey",
+      supplied: "mp3", // or multiple like this: "m4a, ogg",
+  });
+
+  // function js_audioPlayer(file) {
+  //   $("#jquery_jplayer_" + file).jPlayer( {
+  //       ready: function (event) {
+  //         $(this).jPlayer("setMedia", {
+  //           title: file,
+  //           mp3: 'assets/'+file+'.mp3'
+  //         });
+  //       },
+  //       cssSelectorAncestor: "#jp_container_" + file,
+  //       supplied: "mp3", // or multiple like this: "m4a, ogg",
+  //     });
+  //   return;
+  // }
+
+  // $('.frame').each(function() { 
+  //   console.log($(this).data('audio'));
+  //   js_audioPlayer($(this).data('audio'));
+  // });
 
 });
 
