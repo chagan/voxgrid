@@ -2,7 +2,7 @@ body, html{
     height:100%;
     padding:0;
     margin:0;
-    background-color:#333;
+    background-color:#f9f9f9;
     color:#fff;
 }
 
@@ -19,6 +19,11 @@ body, html{
 
 .frame:hover {
 	opacity:1;
+}
+
+.photo-container {
+	background-color:#333;
+	padding-top:15px
 }
 
 nav {
@@ -66,6 +71,20 @@ nav {
 	bottom:0;
 }
 
+.next {
+	position:absolute;
+	right:25px;
+	font-size:48px;
+	bottom:50%;
+}
+
+.previous {
+	position:absolute;
+	left:25px;
+	font-size:48px;
+	top:50%;
+}
+
 .caption-text {
 	width:90%;
 	padding:1em 0px;
@@ -73,12 +92,17 @@ nav {
 	font-family:'Roboto',Arial,sans-serif;
 	line-height: 36px;
 	font-size:24px;
-	text-align:center;
 	margin-left: auto;
     margin-right: auto;
     -webkit-text-shadow: 2px 2px 2px #333;
 	-moz-text-shadow:    2px 2px 2px #333;
 	text-shadow:         2px 2px 2px #333;
+}
+
+h1 {
+	font-family:'Lora',Georga,serif;
+	font-size:36px;
+	margin-top:10px;
 }
 
 .headline {
@@ -105,70 +129,31 @@ nav {
 .main-caption {
 	font-size: 14px;
 	font-family:'Roboto',Arial,sans-serif;
+	text-align:left;
 }
 
-.jp-audio {
-	position: relative;
-	width: 100%;
-	height:40px;
-}
-
-.jp-no-solution {
-    position: absolute;
-    top: 0;
-    left: 42px;
-    right: 0;
-    height: 42px;
-    padding: 8px 0;
-    line-height: 24px;
-    font-size: 16px;
-    text-align: center;
-    display: none;
-	color:#fff;
+.subhed {
+	margin-bottom:10px;
 	font-family:'Roboto',Arial,sans-serif;
-   
+	color:#333;
+}
+.soundcloud {
+	border-radius: 4px;
+    background: #e9e9e9;
+    padding: 4px 4px 0px 4px; 
 }
 
-.jp-controls {
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 42px;
-    height: 100%;
-
+.byline {
+	font-style:italic;
+	font-size:14px;	
 }
-
-.jp-controls a {
-    text-decoration: none;
-    font-size: 20px;
-    line-height: 42px;
-    text-align: center;
-    cursor: pointer;
-    color:#fff;
-    -webkit-text-shadow: 2px 2px 2px #333;
-	-moz-text-shadow:    2px 2px 2px #333;
-	text-shadow:         2px 2px 2px #333;
-}
-
-.jp-controls a:hover {
-
-}
- 
-.jp-controls a:before {
-            display: inline-block;
-            font-style: normal;
-            font-weight: 400;
-            text-decoration: none;
-            font-variant: normal;
-            text-transform: none;
-            speak: none;
-            width: 42px;
-            line-height: 42px;
-            text-align: center;
-            opacity: 1;
-        }
 
 @media (max-width: 600px) {
+
+	.subhed {
+		font-size:14px;
+	}
+
 	.headline {
 		left:70px;
 		font-size:12px;
@@ -176,6 +161,6 @@ nav {
 
 	.wbez-logo svg {
 		margin:10px;
-		width:50px;
+		width:60px;
 	}
 }

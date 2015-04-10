@@ -2,15 +2,22 @@
 
 
 {% block content %}
-<div class="container-fluid">
 
+<div class="container-fluid">
+  <div class="col-sm-8 col-sm-offset-2 subhed">
+    <h1>{{COPY.content.project_name}}</h1>
+    {{COPY.content.subhed}}
+    <div class="soundcloud">
+      <iframe width="100%" height="20" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/200185492%3Fsecret_token%3Ds-MfRWA&amp;color=ff5500&amp;inverse=false&amp;auto_play=false&amp;show_user=true"></iframe>
+    </div>
+  </div>
+  <div class="clearfix visible-xs-block"></div>
+  <div class="photo-container col-xs-12">
     {% for photo in COPY.photos %}
-        <div class="col-sm-4 col-md-3 frame" data-audio="{{photo.audio}}">
-          <img src="https://s3.amazonaws.com/wbez-dailygraphics/election-vox/{{photo.url}}" class="img-responsive" alt="Responsive image">
-          <div class="location">{{photo.location}}</div>
-          <div class="title">{{photo.title}}</div>
-          <div class="main-caption visible-xs">{{photo.caption}}</div>
-          {% include '_player.html' %}
+        <div class="col-sm-4 col-md-3 frame">
+          <img src="https://s3.amazonaws.com/wbez-dailygraphics/puerto-rico-vox/{{photo.url}}" class="img-responsive" alt="Responsive image">
+          <div class="title hidden-xs">{{photo.title}}</div>
+          <div class="main-caption visible-xs">{{photo.caption}} {{photo.credit}}</div>
         </div>
         {% if loop.index is divisibleby 4 %}
           <div class="clearfix visible-lg visible-md"></div>
@@ -20,13 +27,15 @@
           <div class="clearfix visible-sm"></div>
         {% endif %}
     {% endfor %}
-
+  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+      <div class="previous"><i class="fa fa-chevron-left"></i></div>
+      <div class="next"><i class="fa fa-chevron-right"></i></div>
         <div class="modal-caption">
             <div class="caption-text">Caption</div>
         </div>
@@ -44,8 +53,9 @@
 <script>
 $( document ).ready(function() {
 
-  var state = false;
-
+  var index = 0;
+  var total = $('.frame').length-1
+  
   var setClick = function(){
     if ($(window).width() > 768) {
       $('.frame').click(function(){
@@ -54,6 +64,19 @@ $( document ).ready(function() {
           $('.modal-content').css('background-image', 'url(' + image + ')');
           $('.caption-text').text(caption);
           $('#photoModal').modal()
+          index = $('.frame').index($(this));
+          console.log(index,total);
+          if (index >= total) {
+            $('.next').hide();
+            $('.previous').show();
+          } else if (index <= 0) {
+            $('.next').show();
+            $('.previous').hide();
+          } else {
+            $('.next').show();
+            $('.previous').show();
+          }
+
       })
     } else {
       $('.frame').unbind();
@@ -61,54 +84,52 @@ $( document ).ready(function() {
   }
   setClick();
 
+  $('.next').click(function(){
+    index = index+1
+    console.log(index,total);
+    var frame = $('.frame:eq('+ index +')')
+    var image = frame.children().attr('src');
+    var caption = frame.find('.main-caption').text();
+    $('.modal-content').css('background-image', 'url(' + image + ')');
+    $('.caption-text').text(caption);
+    $('#photoModal').modal()
+    if (index >= total) {
+      $('.next').hide();
+      $('.previous').show();
+    } else if (index <= 0) {
+      $('.next').show();
+      $('.previous').hide();
+    } else {
+      $('.next').show();
+      $('.previous').show();
+    }
+  })
+
+  $('.previous').click(function(){
+    index = index-1
+    console.log(index,total);
+    var frame = $('.frame:eq('+ index +')')
+    var image = frame.children().attr('src');
+    var caption = frame.find('.main-caption').text();
+    $('.modal-content').css('background-image', 'url(' + image + ')');
+    $('.caption-text').text(caption);
+    $('#photoModal').modal()
+    if (index >= total) {
+      $('.next').hide();
+      $('.previous').show();
+    } else if (index <= 0) {
+      $('.next').show();
+      $('.previous').hide();
+    } else {
+      $('.next').show();
+      $('.previous').show();
+    }
+  })
+
   $( window ).resize(function() {
     setClick();
   });
-  
-  $("#jquery_jplayer_Hustle").jPlayer({
-      ready: function (event) {
-          $(this).jPlayer("setMedia", {
-              title: "Hustle",
-              mp3: "assets/Hustle.mp3"
-          });
-      },
-      cssSelectorAncestor: "#jp_container_Hustle",
-      supplied: "mp3", // or multiple like this: "m4a, ogg",
-  });
-
-  $("#jquery_jplayer_Whiskey").jPlayer({
-      ready: function (event) {
-          $(this).jPlayer("setMedia", {
-              title: "Whiskey",
-              mp3: "assets/Whiskey.mp3"
-          });
-      },
-      cssSelectorAncestor: "#jp_container_Whiskey",
-      supplied: "mp3", // or multiple like this: "m4a, ogg",
-  });
-
-  // function js_audioPlayer(file) {
-  //   $("#jquery_jplayer_" + file).jPlayer( {
-  //       ready: function (event) {
-  //         $(this).jPlayer("setMedia", {
-  //           title: file,
-  //           mp3: 'assets/'+file+'.mp3'
-  //         });
-  //       },
-  //       cssSelectorAncestor: "#jp_container_" + file,
-  //       supplied: "mp3", // or multiple like this: "m4a, ogg",
-  //     });
-  //   return;
-  // }
-
-  // $('.frame').each(function() { 
-  //   console.log($(this).data('audio'));
-  //   js_audioPlayer($(this).data('audio'));
-  // });
-
 });
-
-
 </script>
 
 {% endblock extra_foot %}
